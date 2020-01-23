@@ -13,7 +13,7 @@ router.post("/register", async (ctx) => {
 		console.log(ctx.request.body, '参数')
 		const User = mongoose.model("User")
 		let newUser = new User(ctx.request.body);
-		const result = await await newUser.save()
+		const result = await  newUser.save()
 		ctx.body = {
 			code: 200,
 			message: "注册成功"

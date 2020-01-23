@@ -9,11 +9,11 @@ router.get("/getAllList", async (ctx) => {
   try {
     const Article = mongoose.model('Article');
     const User = mongoose.model("User")
-    var  result = await  Article.find().exec();
-    var userResult =await User.find().exec();
+    var result = await Article.find().exec();
+    var userResult = await User.find().exec();
     // console.log(result,'result')
 
-    ctx.body = { code: 200, message:result }
+    ctx.body = { code: 200, message: result }
   } catch (error) {
     ctx.body = { code: 500, message: error }
   }
@@ -100,12 +100,19 @@ router.post("/delete", async (ctx) => {
   console.log(ctx.request.body, '删除参数');
   try {
     let articleId = ctx.request.body.articleId;
+    const Article = mongoose.model('Article');
     const ArticleContent = mongoose.model('ArticleContent');
     // let deleteArticle = new ArticleContent();
+    await Article.remove({ articleId: articleId })
     const result = await ArticleContent.remove({ articleId: articleId });
-    ctx.body = { code: 200, message: result }
+    console.log(result)
+    if (result.deletedCount > 0) {
+      ctx.body = { code: 200, message: true }
+    } else {
+      ctx.body = { code: 200, message: false }
+    }
   } catch (error) {
-    console.log(error)
+    console.log('======error=========', error)
     ctx.body = { code: 500, message: error }
   }
 
@@ -137,8 +144,10 @@ router.post("/update", async (ctx) => {
 
     const Article = mongoose.model('Article');
     // let newArticle = new Article({ id: articleId, ...obj });
+    console.log(articleId ,'articleId')
     const resultUpdata = await Article.update({ articleId: articleId }, obj);
     // ctx.body={code:200,data:resultUpdata}
+    console.log(resultUpdata, '修改结果')
 
     // 添加文章内容
     let contentObj = {
@@ -152,7 +161,12 @@ router.post("/update", async (ctx) => {
     const ArticleContent = mongoose.model('ArticleContent');
     const result = await ArticleContent.update({ articleId: articleId }, { id: articleId, ...contentObj });
 
-    ctx.body = { code: 200, message: result }
+    console.log(result)
+    if (result.nModified > 0) {
+      ctx.body = { code: 200, message: true }
+    } else {
+      ctx.body = { code: 200, message: false }
+    }
   } catch (error) {
     console.log(error)
     ctx.body = { code: 500, message: error }
