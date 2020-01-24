@@ -11,8 +11,8 @@ const articleSchema = new Schema({
   readNumber: Number, // 章阅读量
   commentNumber: Number, // 文章评论数
   thumbUpNumber: Number, // 文章点赞数
-  createTime: Number, //  创建时间
-  modifiedTime: Number, //修改时间
+  createTime: String, //  创建时间
+  modifiedTime: String, //修改时间
 }, {
   collections: 'Article'
 })
