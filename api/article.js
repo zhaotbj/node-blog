@@ -39,9 +39,18 @@ router.get("/getContentById", async (ctx) => {
   try {
     let articleObj = ctx.request.query
     const ArticleContent = mongoose.model('ArticleContent');
+    const Article = mongoose.model('Article');
+    let resultArticle =await Article.findOne(articleObj).exec();
     let result = await ArticleContent.findOne(articleObj).exec();
-    console.log(result, 'result')
-    ctx.body = { code: 200, message: result }
+    
+    let  {readNumber,thumbUpNumber,commentNumber}=resultArticle
+    // result= {...result,...resultArticle}
+    let data = {
+      ...JSON.parse(JSON.stringify(result)),
+      "readNumber":readNumber,"thumbUpNumber":thumbUpNumber,"commentNumber":commentNumber
+    }
+    console.log(readNumber,thumbUpNumber,commentNumber,data,'resultArticle')
+    ctx.body = { code: 200, message: data }
   } catch (error) {
     ctx.body = { code: 500, message: error }
   }
@@ -64,7 +73,7 @@ router.post("/create", async (ctx) => {
       readNumber: readNumber || 0, // 章阅读量
       commentNumber: commentNumber || 0, // 文章评论数
       thumbUpNumber: thumbUpNumber || 0, // 文章点赞数
-      createTime: createTime || '', //  创建时间
+      createTime: createTime || new Date().toLocaleTimeString(), //  创建时间
       modifiedTime: modifiedTime || '', //修改时间
     }
     console.log(obj, '参数')

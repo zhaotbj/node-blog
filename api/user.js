@@ -46,10 +46,20 @@ router.post("/login", async (ctx) => {
 			let newUser = new User();
 			await newUser.comparePassword(password, result.password)
 				.then(isMatch => {
-					ctx.body = {
-						code: 200,
-						message: isMatch
+
+					if(isMatch){
+
+						ctx.body = {
+							code: 200,
+							message: {isMatch:isMatch,userName:result.userName,userId:result.userId}
+						}
+					} else {
+						ctx.body = {
+							code: 200,
+							message: {isMatch:isMatch}
+						}
 					}
+					
 				}).catch(error => {
 					console.log(error, 'error')
 					ctx.body = {
