@@ -1,18 +1,26 @@
 {
-  "name": "service",
+  "name": "node-blog",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "description": "```\r node app.js 或 npm run dev\r 默认是3000端口\r ```",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhaotbj/node-blog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhaotbj/node-blog/issues"
+  },
+  "homepage": "https://github.com/zhaotbj/node-blog#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
     "glob": "^7.1.5",
     "koa": "^2.11.0",
-    "koa-bodyparser": "^4.2.1",
-    "koa-router": "^7.4.0",
-    "koa2-cors": "^2.0.6",
-    "mongoose": "^5.7.7"
-  },
-  "scripts": {
-    "dev": "node app.js"
+    "koa-bodyparser": "^4.2.1"
   }
 }
